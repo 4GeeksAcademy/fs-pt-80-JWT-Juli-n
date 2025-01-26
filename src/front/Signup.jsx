@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const history = useHistory();
+    const Navigate = useNavigate();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -14,7 +14,7 @@ const Signup = () => {
             body: JSON.stringify({ email, password })
         });
         if (response.ok) {
-            history.push('/login');
+            Navigate('/login');
         }
     }
 

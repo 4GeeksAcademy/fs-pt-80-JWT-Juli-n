@@ -1,21 +1,28 @@
+// app.jsx
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Signup from './Signup';
 import Login from './Login';
-import PrivateRoute from './PrivateRoute';
 import Private from './Private';
 
-function app() {
-    return (
-        <Router>
-            <Switch>
-                <Route path="/signup" component={Signup} />
-                <Route path="/login" component={Login} />
-                <PrivateRoute path="/private" component={Private} />
-                <Route path="/" component={Login} />
-            </Switch>
-        </Router>
-    );
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+        <Route 
+          path="/private" 
+          element={
+            sessionStorage.getItem('token') 
+              ? <Private /> 
+              : <Navigate to="/login" replace />
+          } 
+        />
+        <Route path="/" element={<Login />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default app;
+export default App;

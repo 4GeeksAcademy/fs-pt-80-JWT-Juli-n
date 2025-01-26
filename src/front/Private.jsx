@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Private = () => {
     const [message, setMessage] = useState('');
-    const history = useHistory();
+    const Navigate = useNavigate();
 
     useEffect(() => {
         const token = sessionStorage.getItem('token');
         if (!token) {
             history.push('/login');
         } else {
-            fetch('/api/protected', {
+            fetch(`${process.env.REACT_APP_BACKEND_URL}/api/login`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -23,9 +23,9 @@ const Private = () => {
                 }
             })
             .then(data => setMessage(`Hello, user ${data.logged_in_as}`))
-            .catch(error => history.push('/login'));
+            .catch(Error => Navigate('/login'));
         }
-    }, [history]);
+    }, [Navigate]);
 
     return (
         <div>
